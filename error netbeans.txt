@@ -1,0 +1,1 @@
+Exception in thread "AWT-EventQueue-0" com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: java.lang.NullPointerException Please see the server log to find more detail regarding exact cause of the failure.
