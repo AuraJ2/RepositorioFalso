@@ -1,0 +1,66 @@
+-- Boton de Controlador:
+
+if(e.getSource()==_view2.cmdConsultar){
+        
+          String[]datos = new String[0];
+          String consulta,info;
+          DefaultTableModel tabla2 = new DefaultTableModel();
+          tabla2.addColumn("idProducto");
+          tabla2.addColumn("nombre");
+          tabla2.addColumn("unidadMedida");
+          tabla2.addColumn("stock");
+          tabla2.addColumn("precioCompra");
+          tabla2.addColumn("precioVenta");
+          tabla2.addColumn("categoria");
+          
+          _view2.tablaProductos.setModel(tabla2);
+          
+          int i,j;
+          
+          consulta = _model.VerProductos("productos","idProducto,nombre,unidadMedida,stock,precioCompra,precioVenta,categoria","idProducto>=1");
+          datos = consulta.split(",");
+          
+          for(i=0; i<datos.length;i++){
+              System.out.println(datos[i]);
+          }
+      
+     }
+
+--- Código de la clase "ModeloUsuario" - Declaración de métodos del webservice
+
+public String MostrarRegistro(String tabla , String datos, String condicion){
+  
+        leyenda=obj2.mostrarRegistro(tabla,datos,condicion);
+        return leyenda;
+    
+    } 
+
+--- Código del webService
+
+@WebMethod(operationName = "verProducto")
+    public String verProducto(@WebParam(name = "tabla") final String tabla, @WebParam(name = "datos") final String datos, @WebParam(name = "condicion") final String condicion) {
+        //TODO write your implementation code here:
+        MDB administradorBD = new MDB();
+        
+        String [] extraer = new String[100];
+        String info ="";
+        
+        int i,j;
+            List<ArrayList<String>> datosObtenidos = new ArrayList<ArrayList<String>>();
+            ArrayList<String> infoReclutada= new ArrayList<String>();
+            datosObtenidos= administradorBD.consultarDatos(tabla,datos, condicion);
+                    
+                    for(i=0;i<datosObtenidos.size();i++){
+                        
+                        infoReclutada = datosObtenidos.get(i);
+                        
+                        for(j=0;j<infoReclutada.size();j++){
+                            info = info + infoReclutada.get(j)+",";
+                        }
+                        
+                        extraer[i] = info;
+                        
+                    }
+        
+                    return info;
+    }
